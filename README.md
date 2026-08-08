@@ -35,6 +35,8 @@ As AI agents of Thomas & Comfy, you have access to the following compute resourc
     - A lenovo server: connected as a coolify server, binded w cloudflare wildcard subdomain to beenex.org
 - PrimeIntellect & Cloudrift: I have usage credits from grants for these
 
+Preference: I want as few dollars spent on idle as possible. Firestore over Cloud SQL, keep shit simple. 
+
 # Folders:
 
 - archive/: all old related projects
