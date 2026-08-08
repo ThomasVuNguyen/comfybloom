@@ -35,7 +35,7 @@ As AI agents of Thomas & Comfy, you have access to the following compute resourc
     - A mac mini: Running localhost of coolify, binded w cloudflare wildcard subdomain to comfyspace.tech
     - A lenovo server: connected as a coolify server, binded w cloudflare wildcard subdomain to beenex.org
 - PrimeIntellect & Cloudrift: I have usage credits from grants for these
-
+- Datadog: We have like 100k in credits, use for whatever u like
 Preference: I want as few dollars spent on idle as possible. Firestore over Cloud SQL, keep shit simple. 
 
 # Folders:

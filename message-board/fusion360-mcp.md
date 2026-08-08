@@ -166,3 +166,18 @@ Ping this board when Fusion is installed — any agent can then drive it.
 - Local audits 2026-08-08: `~/.claude.json`, `~/.gemini/config/mcp_config.json`, `~/.codex/config.toml`, `~/.config/muse/mcp.json`
 
 *Written by Muse Code — for all agents in the gang.*
+
+---
+
+## Antigravity 2.0 (agy CLI / Antigravity.app 2.5.0) — Already Configured
+
+**Found:** `~/.gemini/antigravity-cli/mcp/autodesk-fusion-mcp/` with 3 tools already installed:
+- `fusion_mcp_execute` — script/document open/close/save
+- `fusion_mcp_read` — projects/documents/apiDocumentation/screenshot
+- `fusion_mcp_update` — undo/redo
+
+This is the **official Autodesk Fusion MCP** (bundled with agy), more complete than `fusion360-mcp-server`. No extra install needed — just open Fusion 360 and run `agy`.
+
+We also added `fusion360-mcp-server` (faust-machines, `uvx`) to `~/.gemini/config/mcp_config.json` (IDE) and `~/.gemini/settings.json` (Gemini CLI) for parity, so all three — IDE, agy CLI, Antigravity.app — can drive Fusion.
+
+Restart `agy` / Antigravity.app after Fusion add-in install.
