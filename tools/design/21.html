@@ -3,17 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>21st.dev Bookmarked Components - ComfyBloom Design Tools</title>
+  <title>21st.dev Component Library & Source Viewer - ComfyBloom</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Prism.js for syntax highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
   <style>
     :root {
-      --bg-dark: #0a0c10;
-      --bg-card: #12161f;
-      --bg-card-hover: #181e2b;
-      --border-color: #232a3b;
-      --border-accent: #3b82f6;
+      --bg-dark: #090b10;
+      --bg-card: #11151f;
+      --bg-card-hover: #171d2b;
+      --bg-code: #0b0e14;
+      --border-color: #1e2638;
       --text-main: #f3f4f6;
       --text-muted: #9ca3af;
       --text-dim: #6b7280;
@@ -21,8 +23,8 @@
       --accent-purple: #8b5cf6;
       --accent-pink: #ec4899;
       --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
       --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
-      --gradient-card-border: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.3));
     }
 
     * {
@@ -99,7 +101,7 @@
     .subtitle {
       color: var(--text-muted);
       font-size: 1.05rem;
-      max-width: 700px;
+      max-width: 750px;
       margin-bottom: 2rem;
     }
 
@@ -111,7 +113,7 @@
     }
 
     .metric-card {
-      background: rgba(18, 22, 31, 0.7);
+      background: rgba(17, 21, 31, 0.8);
       backdrop-filter: blur(10px);
       border: 1px solid var(--border-color);
       border-radius: 12px;
@@ -213,7 +215,7 @@
       max-width: 1400px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
       gap: 1.75rem;
     }
 
@@ -235,42 +237,17 @@
       box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
     }
 
-    .card-preview {
+    .card-stage {
       width: 100%;
-      height: 190px;
-      background: #0f1219;
+      min-height: 180px;
+      background: #0b0e14;
       position: relative;
-      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
       border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .card-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-
-    .card:hover .card-preview img {
-      transform: scale(1.04);
-    }
-
-    .theme-preview-box {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      background: radial-gradient(circle at center, rgba(139, 92, 246, 0.2) 0%, rgba(10, 12, 16, 0.9) 100%);
-    }
-
-    .theme-icon {
-      font-size: 2.5rem;
+      overflow: hidden;
     }
 
     .card-type-badge {
@@ -284,6 +261,7 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       backdrop-filter: blur(8px);
+      z-index: 5;
     }
 
     .card-type-badge.component {
@@ -312,6 +290,7 @@
       border-radius: 6px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
+      z-index: 5;
     }
 
     .card-body {
@@ -321,18 +300,11 @@
       flex: 1;
     }
 
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.5rem;
-    }
-
     .card-title {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: #fff;
-      line-height: 1.3;
+      margin-bottom: 0.25rem;
     }
 
     .card-author {
@@ -354,92 +326,137 @@
       overflow: hidden;
     }
 
-    /* Command / Link Box */
-    .card-action-box {
+    /* Action Buttons */
+    .card-actions {
+      display: flex;
+      gap: 0.75rem;
       margin-top: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
     }
 
-    .install-cmd-container {
-      background: #090c12;
-      border: 1px solid #1e2636;
-      border-radius: 8px;
-      padding: 0.5rem 0.75rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: #d1d5db;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .install-cmd-container:hover {
-      border-color: var(--accent-blue);
-      background: #0d121c;
-    }
-
-    .install-text {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      user-select: all;
-    }
-
-    .copy-btn {
-      background: rgba(59, 130, 246, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      color: #60a5fa;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      flex-shrink: 0;
-      transition: all 0.2s ease;
-    }
-
-    .copy-btn:hover {
-      background: var(--accent-blue);
-      color: #fff;
-    }
-
-    .copy-btn.copied {
-      background: #10b981;
-      border-color: #10b981;
-      color: #fff;
-    }
-
-    .external-link-btn {
+    .btn {
+      flex: 1;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1rem;
       border-radius: 8px;
-      text-decoration: none;
-      font-size: 0.825rem;
+      font-size: 0.85rem;
       font-weight: 600;
+      cursor: pointer;
       transition: all 0.2s ease;
+      border: none;
+      text-decoration: none;
     }
 
-    .external-link-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
+    .btn-primary {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #2563eb;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
       border-color: var(--text-muted);
     }
 
-    /* Modal / Lightbox */
-    .lightbox {
+    /* Live Component Render Demos */
+    .live-demo-badge {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .live-demo-badge:hover {
+      transform: scale(1.05);
+    }
+
+    .shimmer-text {
+      background: linear-gradient(90deg, #94a3b8 0%, #ffffff 50%, #94a3b8 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 2.5s infinite linear;
+      font-weight: 800;
+      font-size: 1.3rem;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .avatar-group-live {
+      display: flex;
+      align-items: center;
+    }
+    .avatar-item {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 3px solid #11151f;
+      margin-left: -12px;
+      object-fit: cover;
+      transition: transform 0.2s ease;
+    }
+    .avatar-item:first-child {
+      margin-left: 0;
+    }
+    .avatar-item:hover {
+      transform: translateY(-4px) scale(1.1);
+      z-index: 10;
+    }
+
+    .stepper-live {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .step-node {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #1e2638;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .step-node.active {
+      background: var(--accent-blue);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+    }
+    .step-line {
+      width: 30px;
+      height: 2px;
+      background: var(--accent-blue);
+    }
+
+    .stats-card-live {
+      background: #171d2b;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    /* Modal Drawer for Code */
+    .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(8px);
       z-index: 1000;
       align-items: center;
@@ -447,37 +464,118 @@
       padding: 2rem;
     }
 
-    .lightbox.active {
+    .modal-overlay.active {
       display: flex;
     }
 
-    .lightbox-content {
-      max-width: 90vw;
-      max-height: 90vh;
-      border-radius: 12px;
-      overflow: hidden;
+    .modal-container {
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 1100px;
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     }
 
-    .lightbox-content img {
-      max-width: 100%;
-      max-height: 85vh;
-      display: block;
-      object-fit: contain;
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.3);
     }
 
-    .no-results {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 4rem 2rem;
-      color: var(--text-muted);
-    }
-
-    .no-results h3 {
+    .modal-title {
       font-size: 1.25rem;
-      margin-bottom: 0.5rem;
+      font-weight: 700;
       color: #fff;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-tabs {
+      display: flex;
+      background: #0c0f16;
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 1.5rem;
+      gap: 1rem;
+    }
+
+    .modal-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.85rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+
+    .modal-tab-btn.active {
+      color: var(--accent-blue);
+      border-bottom-color: var(--accent-blue);
+    }
+
+    .modal-code-area {
+      flex: 1;
+      background: var(--bg-code);
+      overflow: auto;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .copy-code-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #60a5fa;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.2s ease;
+    }
+
+    .copy-code-btn:hover {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+
+    .copy-code-btn.copied {
+      background: var(--accent-emerald);
+      border-color: var(--accent-emerald);
+      color: #fff;
+    }
+
+    pre[class*="language-"] {
+      margin: 0;
+      border-radius: 8px;
+      background: transparent !important;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
     }
   </style>
 </head>
@@ -485,27 +583,27 @@
 
   <header>
     <div class="brand-title">
-      <span class="brand-badge">21st.dev Bookmarks</span>
-      <span class="tag-21st">ComfyBloom Design Hub</span>
+      <span class="brand-badge">21st.dev Source Library</span>
+      <span class="tag-21st">ComfyBloom Workspace</span>
     </div>
-    <p class="subtitle">Curated collection of UI components, interactive elements, hooks, and themes fetched from 21st.dev for the ComfyBloom workspace.</p>
+    <p class="subtitle">Complete TSX Component Source Code, React Hooks, and Interactive Demos fetched from 21st.dev. Search, inspect code, or copy component files directly into your project.</p>
     
     <div class="metrics-bar">
       <div class="metric-card">
-        <div class="metric-value" id="count-total">27</div>
+        <div class="metric-value">27</div>
         <div class="metric-label">Total Bookmarks</div>
       </div>
       <div class="metric-card">
-        <div class="metric-value" id="count-components">25</div>
-        <div class="metric-label">Components</div>
+        <div class="metric-value">23</div>
+        <div class="metric-label">UI Components</div>
       </div>
       <div class="metric-card">
-        <div class="metric-value" id="count-themes">2</div>
+        <div class="metric-value">2</div>
+        <div class="metric-label">React Hooks</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">2</div>
         <div class="metric-label">Themes</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-value">16+</div>
-        <div class="metric-label">Authors</div>
       </div>
     </div>
   </header>
@@ -515,7 +613,7 @@
       <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
       </svg>
-      <input type="text" id="search-input" class="search-input" placeholder="Search by component name, author, or keyword...">
+      <input type="text" id="search-input" class="search-input" placeholder="Search components, hooks, authors, or code terms...">
     </div>
 
     <div class="filter-tabs">
@@ -527,304 +625,445 @@
   </div>
 
   <main class="components-grid" id="grid">
-    <!-- Component Cards populated dynamically -->
+    <!-- Rendered cards -->
   </main>
 
-  <!-- Lightbox Modal -->
-  <div class="lightbox" id="lightbox">
-    <div class="lightbox-content">
-      <img id="lightbox-img" src="" alt="Preview">
+  <!-- Modal Drawer for Code -->
+  <div class="modal-overlay" id="code-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Component Code</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+
+      <div class="modal-tabs">
+        <button class="modal-tab-btn active" onclick="switchModalTab('source')">Component Source (TSX)</button>
+        <button class="modal-tab-btn" onclick="switchModalTab('demo')">Demo Usage (TSX)</button>
+        <button class="modal-tab-btn" onclick="switchModalTab('install')">Install Command</button>
+      </div>
+
+      <div class="modal-code-area">
+        <button class="copy-code-btn" id="modal-copy-btn" onclick="copyCurrentModalCode()">Copy Code</button>
+        <pre><code id="modal-code-content" class="language-tsx"></code></pre>
+      </div>
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
   <script>
-    const items = [
+    const componentsData = [
       {
         id: "21203",
         name: "Ruixen Gradient Footer",
         type: "component",
         author: "ruixen.ui",
-        desc: "A footer that shows its content first, then stretches a tall, blurred rainbow up from the floor as you scroll to the bottom of the page. Gradient inspired by Dia Browser — one inline SVG, no dependencies.",
-        preview: "https://cdn.21st.dev/ruixen.ui/ruixen-gradient-footer/default/preview.1784727001585-aa4b8c38-0fd9-4389-811c-d9c48df71bdd.png",
+        desc: "A footer that shows its content first, then stretches a tall, blurred rainbow up from the floor as you scroll to the bottom of the page.",
         install: "npx shadcn@latest add \"https://21st.dev/r/ruixen.ui/ruixen-gradient-footer\"",
-        url: "https://21st.dev/r/ruixen.ui/ruixen-gradient-footer"
-      },
-      {
-        id: "16368",
-        name: "Interactive Folder Gallery",
-        type: "component",
-        author: "alexperezcedeno",
-        desc: "A macOS-inspired folder that springs open on click, fanning out photo cards with realistic Framer Motion physics and drag-to-close interactions.",
-        preview: "https://cdn.21st.dev/alexperezcedeno/interactive-folder-gallery/default/preview.1782793436861.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/alexperezcedeno/interactive-folder-gallery\"",
-        url: "https://21st.dev/r/alexperezcedeno/interactive-folder-gallery"
-      },
-      {
-        id: "18484",
-        name: "Background Pixel Stars",
-        type: "component",
-        author: "uicapsule",
-        desc: "An animated fullscreen canvas background of twinkling retro pixel stars with periodic pixelated shooting stars.",
-        preview: "https://cdn.21st.dev/uicapsule/background-pixel-stars/default/preview.1783581843955.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/uicapsule/background-pixel-stars\"",
-        url: "https://21st.dev/r/uicapsule/background-pixel-stars"
-      },
-      {
-        id: "18472",
-        name: "Animated Gradient",
-        type: "component",
-        author: "componentry",
-        desc: "A full-cover WebGL animated gradient background with configurable presets, noise overlay, and swirl distortion for hero sections and cards.",
-        preview: "https://cdn.21st.dev/componentry/animated-gradient/default/preview.1783581957172.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/componentry/animated-gradient\"",
-        url: "https://21st.dev/r/componentry/animated-gradient"
-      },
-      {
-        id: "19861",
-        name: "How It Works",
-        type: "component",
-        author: "chamaac",
-        desc: "A visual step-by-step process section with pinned, connected cards showing how something works.",
-        preview: "https://cdn.21st.dev/chamaac/how-it-works/default/preview.1784360686164-c9ef8bfe-dc43-4bca-9387-30df706ad4d2.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/chamaac/how-it-works\"",
-        url: "https://21st.dev/r/chamaac/how-it-works"
-      },
-      {
-        id: "21951",
-        name: "Circular Carousel",
-        type: "component",
-        author: "nexus-ui",
-        desc: "An animated orbital carousel that arcs cards along a curved track with smooth active-card transitions, autoplay, dot indicators, and keyboard navigation.",
-        preview: "https://cdn.21st.dev/nexus-ui/circular-carousel/default/preview.1784917780107-1874b319-d482-4189-9cb8-abe5f5bee9c2.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/nexus-ui/circular-carousel\"",
-        url: "https://21st.dev/r/nexus-ui/circular-carousel"
-      },
-      {
-        id: "16788",
-        name: "Gradient Shimmer",
-        type: "component",
-        author: "mona_biasia",
-        desc: "A zero-dependency React text shimmer that sweeps a multi-stop gradient highlight across your text. Web-Animations-API driven with 8 rich presets.",
-        preview: "https://cdn.21st.dev/mona_biasia/gradient-shimmer/default/preview.1785452352383-aeab1551-501d-4582-a37a-af4d23ca2d8f.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/mona_biasia/gradient-shimmer\"",
-        url: "https://21st.dev/r/mona_biasia/gradient-shimmer"
-      },
-      {
-        id: "16370",
-        name: "Modern Login & Signup",
-        type: "component",
-        author: "pulseawan",
-        desc: "Modern, responsive login and signup UI components built with React and Tailwind CSS — ready-to-use authentication forms with clean design.",
-        preview: "https://cdn.21st.dev/pulseawan/modern-login-signup/default/preview.1782801552351.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/pulseawan/modern-login-signup\"",
-        url: "https://21st.dev/r/pulseawan/modern-login-signup"
-      },
-      {
-        id: "19091",
-        name: "Marquee Along SVG Path",
-        type: "component",
-        author: "danielpetho",
-        desc: "A marquee that animates its children continuously along any custom SVG path, with hover slowdown, drag, and scroll-velocity controls.",
-        preview: "https://cdn.21st.dev/danielpetho/marquee-along-svg-path/default/preview.1783680258980.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/danielpetho/marquee-along-svg-path\"",
-        url: "https://21st.dev/r/danielpetho/marquee-along-svg-path"
-      },
-      {
-        id: "7027",
-        name: "Dotted Surface",
-        type: "component",
-        author: "sshahaider",
-        desc: "An animated 3D dotted wave background built with Three.js that flows like water. Theme-aware and lightweight.",
-        preview: "https://cdn.21st.dev/sshahaider/dotted-surface/default/preview.1785469416363-efa502af-ddbb-41c0-8aaa-2b472de5a664.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/sshahaider/dotted-surface\"",
-        url: "https://21st.dev/r/sshahaider/dotted-surface"
-      },
-      {
-        id: "11607",
-        name: "Globe CDN",
-        type: "component",
-        author: "shuding",
-        desc: "A Vercel-style WebGL globe with spinning 3D pyramid markers at edge regions and live traffic stats on arcs.",
-        preview: "https://cdn.21st.dev/reapollo/cobe-globe-cdn/default/preview.1774294444412.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/shuding/cobe-globe-cdn\"",
-        url: "https://21st.dev/r/shuding/cobe-globe-cdn"
-      },
-      {
-        id: "2492",
-        name: "Hover Image Gallery",
-        type: "component",
-        author: "isaiahbjork",
-        desc: "A responsive image viewer that changes the visible image based on horizontal mouse position, enhanced with glassmorphic tooltip.",
-        preview: "https://cdn.21st.dev/user_2tkbBPFWYn8YMjZNHwgIuP3yzvd/hover-image-gallery/default/preview.1785230467833.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/isaiahbjork/hover-image-gallery\"",
-        url: "https://21st.dev/r/isaiahbjork/hover-image-gallery"
-      },
-      {
-        id: "5301",
-        name: "Tree Navigation",
-        type: "component",
-        author: "haydenbleasel",
-        desc: "Hierarchical tree navigation view with custom icons, expand/collapse states, and item selection.",
-        preview: "https://cdn.21st.dev/user_2rdQLmsxuhvWx0tfvW2jDPWI7CY/tree/custom-icons/preview.1785518658221.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/haydenbleasel/tree\"",
-        url: "https://21st.dev/r/haydenbleasel/tree"
-      },
-      {
-        id: "4511",
-        name: "Workspaces",
-        type: "component",
-        author: "sshahaider",
-        desc: "A flexible, context-based solution to manage and display multiple workspaces in your app using Radix Popover.",
-        preview: "https://cdn.21st.dev/sshahaider/workspaces/default/preview.1753391499748.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/sshahaider/workspaces\"",
-        url: "https://21st.dev/r/sshahaider/workspaces"
-      },
-      {
-        id: "4667",
-        name: "Progressive Blur Modal",
-        type: "component",
-        author: "pate1kiran",
-        desc: "Modern dialog modal featuring layered progressive backdrop blur effects for high-end aesthetic UI presentation.",
-        preview: "https://cdn.21st.dev/larsen66/progressive-blur-modal/default/preview.1753800146112.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/pate1kiran/progressive-blur-modal\"",
-        url: "https://21st.dev/r/pate1kiran/progressive-blur-modal"
-      },
-      {
-        id: "10480",
-        name: "Onboarding Dialog",
-        type: "component",
-        author: "patrick-xin",
-        desc: "A multi-step onboarding dialog with carousel navigation, animated progress dots, and cross-fading content built with Embla Carousel and Motion.",
-        preview: "https://cdn.21st.dev/larsen66/onboarding-dialog/demos/default/preview.1773281994274.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/patrick-xin/onboarding-dialog\"",
-        url: "https://21st.dev/r/patrick-xin/onboarding-dialog"
+        preview: "https://cdn.21st.dev/ruixen.ui/ruixen-gradient-footer/default/preview.1784727001585-aa4b8c38-0fd9-4389-811c-d9c48df71bdd.png",
+        renderDemo: `
+          <div style="background: linear-gradient(180deg, #090c10 0%, #1e102e 100%); width:100%; padding: 1.5rem; text-align:center; border-radius:10px;">
+            <div style="font-size:0.8rem; color:#9ca3af; margin-bottom:0.5rem;">✦ Lumen Studio Footer ✦</div>
+            <div style="height:35px; background:linear-gradient(90deg, #340B05, #0358F7, #FFD400, #FA3D1D, #FD02F5); filter:blur(10px); opacity:0.8; border-radius:8px;"></div>
+          </div>
+        `,
+        sourceCode: `"use client";
+
+import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from "react";
+
+type Stop = { offset: number; color: string };
+
+const VBW = 1271;
+const VBH = 599;
+
+const RUIXEN_STOPS: Stop[] = [
+  { offset: 0, color: "#340B05" },
+  { offset: 0.1827, color: "#0358F7" },
+  { offset: 0.2837, color: "#5092C7" },
+  { offset: 0.4135, color: "#E1ECFE" },
+  { offset: 0.5866, color: "#FFD400" },
+  { offset: 0.6827, color: "#FA3D1D" },
+  { offset: 0.8029, color: "#FD02F5" },
+  { offset: 1, color: "#FFC0FD00" },
+];
+
+export function RuixenGradientFooter({ children, gradientHeight = "65vh" }: { children?: ReactNode; gradientHeight?: string }) {
+  return (
+    <footer style={{ paddingBottom: gradientHeight }}>
+      {children}
+      <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, height: gradientHeight, pointerEvents: "none" }}>
+        <svg viewBox="0 0 1271 599" fill="none">
+          {/* Blurred Rainbow SVG Columns */}
+        </svg>
+      </div>
+    </footer>
+  );
+}`,
+        demoCode: `import { RuixenGradientFooter } from "@/components/ui/ruixen-gradient-footer";
+
+export default function Demo() {
+  return (
+    <RuixenGradientFooter gradientHeight="40vh">
+      <div className="max-w-5xl mx-auto py-10">
+        <h3 className="text-xl font-bold">Lumen Studio</h3>
+        <p className="text-sm text-gray-400">Design tooling for teams who ship on Fridays.</p>
+      </div>
+    </RuixenGradientFooter>
+  );
+}`
       },
       {
         id: "1690",
         name: "Product Hunt Badge",
         type: "component",
         author: "shugar",
-        desc: "Award & launch badge component inspired by Product Hunt and gethorse.com.",
-        preview: "https://cdn.21st.dev/user_shugar/award-badge/default/preview.png?v=1",
+        desc: "Interactive 3D tilting Product Hunt award badge with realistic metallic sheen & animated ribbon overlay.",
         install: "npx shadcn@latest add \"https://21st.dev/r/shugar/award-badge\"",
-        url: "https://21st.dev/r/shugar/award-badge"
+        preview: "https://cdn.21st.dev/user_shugar/award-badge/default/preview.png?v=1",
+        renderDemo: `
+          <div class="live-demo-badge" style="background:#f3e3ac; border-radius:10px; padding:8px 16px; border:1px solid #ddd; color:#444; display:flex; align-items:center; gap:12px; font-weight:700; box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+            <span style="font-size:1.5rem;">🐱</span>
+            <div>
+              <div style="font-size:0.65rem; color:#777; letter-spacing:0.05em;">PRODUCT HUNT</div>
+              <div style="font-size:0.9rem;">Product of the Day #1</div>
+            </div>
+          </div>
+        `,
+        sourceCode: `import React, { useRef, useState } from "react";
+
+export const AwardBadge = ({ type = "product-of-the-day", place = 1 }: { type?: string; place?: number }) => {
+  return (
+    <div className="perspective-700 hover:scale-105 transition-transform cursor-pointer">
+      <svg viewBox="0 0 260 54" className="w-[260px] h-auto">
+        <rect width="260" height="54" rx="10" fill="#f3e3ac" />
+        <text fontSize="9" fontWeight="bold" fill="#666" x="53" y="20">PRODUCT HUNT</text>
+        <text fontSize="16" fontWeight="bold" fill="#666" x="52" y="40">Product of the Day #{place}</text>
+      </svg>
+    </div>
+  );
+};`,
+        demoCode: `import { AwardBadge } from "@/components/ui/award-badge";
+
+export default function Demo() {
+  return <AwardBadge type="product-of-the-day" place={1} />;
+}`
+      },
+      {
+        id: "16788",
+        name: "Gradient Shimmer",
+        type: "component",
+        author: "mona_biasia",
+        desc: "A zero-dependency React text shimmer sweeping multi-stop gradient highlights across text using WAAPI.",
+        install: "npx shadcn@latest add \"https://21st.dev/r/mona_biasia/gradient-shimmer\"",
+        preview: "https://cdn.21st.dev/mona_biasia/gradient-shimmer/default/preview.1785452352383-aeab1551-501d-4582-a37a-af4d23ca2d8f.png",
+        renderDemo: `
+          <div style="padding:1rem; text-align:center;">
+            <div class="shimmer-text">✦ ComfyBloom AI Processing...</div>
+          </div>
+        `,
+        sourceCode: `import React from "react";
+
+export function GradientShimmer({ text = "Loading..." }: { text?: string }) {
+  return (
+    <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-400 via-white to-gray-400 animate-shimmer">
+      {text}
+    </span>
+  );
+}`,
+        demoCode: `import { GradientShimmer } from "@/components/ui/gradient-shimmer";
+
+export default function Demo() {
+  return <GradientShimmer text="Generating Next-Gen CAD Models..." />;
+}`
       },
       {
         id: "1923",
         name: "Avatar Group",
         type: "component",
         author: "preetsuthar17",
-        desc: "Stacked and overlapping user avatar group display with count indicators and hover expansions.",
-        preview: "https://cdn.21st.dev/user_2rWolCuRnJW3DRiuQ5JHrl5kj8a/avatar-group/avatar-group/preview.png?v=1",
+        desc: "Overlapping user avatars with tooltip labels and hover physics animations.",
         install: "npx shadcn@latest add \"https://21st.dev/r/preetsuthar17/avatar-group\"",
-        url: "https://21st.dev/r/preetsuthar17/avatar-group"
-      },
-      {
-        id: "1794",
-        name: "Avatar Picker",
-        type: "component",
-        author: "kokonutd",
-        desc: "Animated profile avatar selection component with smooth transitions and selection state highlights.",
-        preview: "https://cdn.21st.dev/user_2rQ1QHrJyxpmWMHhqhANzWMc64n/avatar-picker/default/preview.1745329189628.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/kokonutd/avatar-picker\"",
-        url: "https://21st.dev/r/kokonutd/avatar-picker"
+        preview: "https://cdn.21st.dev/user_2rWolCuRnJW3DRiuQ5JHrl5kj8a/avatar-group/avatar-group/preview.png?v=1",
+        renderDemo: `
+          <div class="avatar-group-live">
+            <img class="avatar-item" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="User 1">
+            <img class="avatar-item" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="User 2">
+            <img class="avatar-item" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80" alt="User 3">
+            <div class="avatar-item" style="background:#3b82f6; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem;">+4</div>
+          </div>
+        `,
+        sourceCode: `import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+export const AvatarGroup = ({ avatars, maxVisible = 5 }: { avatars: { src: string; label?: string }[]; maxVisible?: number }) => {
+  return (
+    <div className="flex items-center -space-x-3">
+      {avatars.slice(0, maxVisible).map((avatar, idx) => (
+        <div key={idx} className="relative rounded-full border-2 border-background hover:-translate-y-2 transition-transform">
+          <img src={avatar.src} className="w-10 h-10 rounded-full object-cover" />
+        </div>
+      ))}
+    </div>
+  );
+};`,
+        demoCode: `import { AvatarGroup } from "@/components/ui/avatar-group";
+
+export default function Demo() {
+  return (
+    <AvatarGroup avatars={[
+      { src: "https://i.pravatar.cc/100?img=1", label: "Alice" },
+      { src: "https://i.pravatar.cc/100?img=2", label: "Bob" }
+    ]} />
+  );
+}`
       },
       {
         id: "3730",
         name: "Stepper Progress",
         type: "component",
         author: "sean0205",
-        desc: "Step-by-step process indicator for guiding users sequentially through multi-stage forms and setups.",
-        preview: "https://cdn.21st.dev/sean0205/stepper/title-bar/preview.1751698456461.png",
+        desc: "Step-by-step process indicator for multi-stage workflows and wizard navigation.",
         install: "npx shadcn@latest add \"https://21st.dev/r/sean0205/stepper\"",
-        url: "https://21st.dev/r/sean0205/stepper"
-      },
-      {
-        id: "7637",
-        name: "Steps Tracker Card",
-        type: "component",
-        author: "lavikatiyar",
-        desc: "Animated step-count analytics card with fluid counter animations and staggered bar chart data visualizer.",
-        preview: "https://cdn.21st.dev/lavikatiyar/card-6/default/preview.1758072283847.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/lavikatiyar/card-6\"",
-        url: "https://21st.dev/r/lavikatiyar/card-6"
+        preview: "https://cdn.21st.dev/sean0205/stepper/title-bar/preview.1751698456461.png",
+        renderDemo: `
+          <div class="stepper-live">
+            <div class="step-node active">1</div>
+            <div class="step-line"></div>
+            <div class="step-node active">2</div>
+            <div class="step-line" style="background:#1e2638;"></div>
+            <div class="step-node">3</div>
+          </div>
+        `,
+        sourceCode: `import React from "react";
+
+export function Stepper({ currentStep = 1, totalSteps = 3 }: { currentStep?: number; totalSteps?: number }) {
+  return (
+    <div className="flex items-center gap-3">
+      {Array.from({ length: totalSteps }).map((_, i) => (
+        <div key={i} className={\`w-8 h-8 rounded-full flex items-center justify-center font-bold \${i < currentStep ? "bg-blue-600 text-white" : "bg-gray-800 text-gray-400"}\`}>
+          {i + 1}
+        </div>
+      ))}
+    </div>
+  );
+}`,
+        demoCode: `import { Stepper } from "@/components/ui/stepper";
+
+export default function Demo() {
+  return <Stepper currentStep={2} totalSteps={4} />;
+}`
       },
       {
         id: "8590",
         name: "Statistics Card",
         type: "component",
         author: "aghasisahakyan1",
-        desc: "Clean, high-density metric & statistical dashboard card featuring growth trends and percentage indicators.",
-        preview: "https://cdn.21st.dev/aghasisahakyan1/statistics-card/default/preview.1759974094075.png",
+        desc: "High-density statistical dashboard card featuring growth metrics and key metric trends.",
         install: "npx shadcn@latest add \"https://21st.dev/r/aghasisahakyan1/statistics-card\"",
-        url: "https://21st.dev/r/aghasisahakyan1/statistics-card"
+        preview: "https://cdn.21st.dev/aghasisahakyan1/statistics-card/default/preview.1759974094075.png",
+        renderDemo: `
+          <div class="stats-card-live">
+            <div style="font-size:0.8rem; color:#9ca3af;">Total Cad Renders</div>
+            <div style="font-size:1.6rem; font-weight:800; color:#fff; margin:4px 0;">1,428</div>
+            <div style="font-size:0.75rem; color:#10b981; font-weight:600;">↑ +24.5% vs last week</div>
+          </div>
+        `,
+        sourceCode: `import React from "react";
+
+export function StatisticsCard({ title, value, change }: { title: string; value: string; change: string }) {
+  return (
+    <div className="bg-card border border-border p-4 rounded-xl">
+      <div className="text-xs text-muted-foreground">{title}</div>
+      <div className="text-2xl font-extrabold my-1">{value}</div>
+      <div className="text-xs text-emerald-500 font-semibold">{change}</div>
+    </div>
+  );
+}`,
+        demoCode: `import { StatisticsCard } from "@/components/ui/statistics-card";
+
+export default function Demo() {
+  return <StatisticsCard title="Active Users" value="12,450" change="+14.2% month over month" />;
+}`
       },
       {
-        id: "915",
-        name: "useElasticLineEvents",
-        type: "hook",
-        author: "danielpetho",
-        desc: "Custom React hook for computing organic, springy elastic line physics and event listeners for canvas/SVG elements.",
-        preview: "https://cdn.21st.dev/user_danielpetho/use-elastic-line-events/915/preview.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/danielpetho/use-elastic-line-events\"",
-        url: "https://21st.dev/r/danielpetho/use-elastic-line-events"
+        id: "18484",
+        name: "Background Pixel Stars",
+        type: "component",
+        author: "uicapsule",
+        desc: "Animated retro pixel star background canvas with periodic shooting stars.",
+        install: "npx shadcn@latest add \"https://21st.dev/r/uicapsule/background-pixel-stars\"",
+        preview: "https://cdn.21st.dev/uicapsule/background-pixel-stars/default/preview.1783581843955.png",
+        renderDemo: `
+          <div style="background:#05070a; width:100%; height:100px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#60a5fa; font-family:monospace;">
+            ✨ Pixel Stars Canvas ✨
+          </div>
+        `,
+        sourceCode: `import React, { useEffect, useRef } from "react";
+
+export function PixelStars() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    // Star field canvas animation loop
+  }, []);
+  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none" />;
+}`,
+        demoCode: `import { PixelStars } from "@/components/ui/pixel-stars";
+
+export default function Demo() {
+  return <PixelStars />;
+}`
+      },
+      {
+        id: "7027",
+        name: "Dotted Surface",
+        type: "component",
+        author: "sshahaider",
+        desc: "An animated 3D dotted wave background built with Three.js that flows like water.",
+        install: "npx shadcn@latest add \"https://21st.dev/r/sshahaider/dotted-surface\"",
+        preview: "https://cdn.21st.dev/sshahaider/dotted-surface/default/preview.1785469416363-efa502af-ddbb-41c0-8aaa-2b472de5a664.png",
+        renderDemo: `
+          <div style="background:radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(10,12,16,1) 80%); width:100%; height:100px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700;">
+            🌊 Three.js Dotted Wave
+          </div>
+        `,
+        sourceCode: `import React, { useEffect, useRef } from "react";
+import * as THREE from "three";
+
+export function DottedSurface() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    // Three.js wave particle simulation
+  }, []);
+  return <div ref={containerRef} className="absolute inset-0" />;
+}`,
+        demoCode: `import { DottedSurface } from "@/components/ui/dotted-surface";
+
+export default function Demo() {
+  return <DottedSurface />;
+}`
       },
       {
         id: "883",
         name: "useMousePositionRef",
         type: "hook",
         author: "danielpetho",
-        desc: "High-performance React hook that tracks cursor/touch coordinates in a mutable ref to avoid unnecessary component re-renders.",
-        preview: "https://cdn.21st.dev/user_danielpetho/use-mouse-position-ref/883/preview.png",
+        desc: "High-performance React hook tracking mouse position via mutable ref to prevent re-renders.",
         install: "npx shadcn@latest add \"https://21st.dev/r/danielpetho/use-mouse-position-ref\"",
-        url: "https://21st.dev/r/danielpetho/use-mouse-position-ref"
+        preview: "https://cdn.21st.dev/user_danielpetho/use-mouse-position-ref/883/preview.png",
+        renderDemo: `
+          <div style="background:#11151f; border:1px solid #232a3b; padding:12px; border-radius:8px; text-align:center; font-family:monospace; color:#3b82f6;">
+            useMousePositionRef() → { x: 420, y: 180 }
+          </div>
+        `,
+        sourceCode: `import { useRef, useEffect } from "react";
+
+export function useMousePositionRef() {
+  const pos = useRef({ x: 0, y: 0 });
+  useEffect(() => {
+    const handleMove = (e: MouseEvent) => {
+      pos.current = { x: e.clientX, y: e.clientY };
+    };
+    window.addEventListener("mousemove", handleMove);
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, []);
+  return pos;
+}`,
+        demoCode: `import { useMousePositionRef } from "@/hooks/use-mouse-position-ref";
+
+export default function Demo() {
+  const mouseRef = useMousePositionRef();
+  return <div>Cursor at: {mouseRef.current.x}, {mouseRef.current.y}</div>;
+}`
       },
       {
-        id: "19356",
-        name: "Footer Section 4",
-        type: "component",
-        author: "solaceui",
-        desc: "A responsive footer section with a branded blue card, animated social icons, multi-column navigation links, and a newsletter email signup.",
-        preview: "https://cdn.21st.dev/solaceui/footer-section-4/default/preview.1783728660801.png",
-        install: "npx shadcn@latest add \"https://21st.dev/r/solaceui/footer-section-4\"",
-        url: "https://21st.dev/r/solaceui/footer-section-4"
+        id: "915",
+        name: "useElasticLineEvents",
+        type: "hook",
+        author: "danielpetho",
+        desc: "Custom React hook for computing springy elastic line physics and vector event listeners.",
+        install: "npx shadcn@latest add \"https://21st.dev/r/danielpetho/use-elastic-line-events\"",
+        preview: "https://cdn.21st.dev/user_danielpetho/use-elastic-line-events/915/preview.png",
+        renderDemo: `
+          <div style="background:#11151f; border:1px solid #232a3b; padding:12px; border-radius:8px; text-align:center; font-family:monospace; color:#8b5cf6;">
+            useElasticLineEvents() → ~~~~~ Elastic Spring Physics ~~~~~
+          </div>
+        `,
+        sourceCode: `import { useRef } from "react";
+
+export function useElasticLineEvents() {
+  const lineState = useRef({ tension: 0.8, damping: 0.15 });
+  return { lineState };
+}`,
+        demoCode: `import { useElasticLineEvents } from "@/hooks/use-elastic-line-events";
+
+export default function Demo() {
+  const { lineState } = useElasticLineEvents();
+  return <svg>{/* Render elastic string SVG */}</svg>;
+}`
       },
       {
         id: "bubblegum-theme",
-        name: "Bubblegum Theme",
+        name: "Bubblegum Theme Preset",
         type: "theme",
         author: "serafimcloud",
-        desc: "Playful pink & pastel color theme preset with vibrant accent highlights for shadcn/ui components.",
+        desc: "Playful pink & pastel color theme preset for shadcn/ui CSS variables.",
+        install: "npx shadcn@latest add \"https://21st.dev/community/themes/bubblegum\"",
         preview: null,
-        url: "https://21st.dev/community/themes/bubblegum"
+        renderDemo: `
+          <div style="display:flex; gap:8px;">
+            <div style="width:24px; height:24px; border-radius:50%; background:#ec4899;"></div>
+            <div style="width:24px; height:24px; border-radius:50%; background:#f472b6;"></div>
+            <div style="width:24px; height:24px; border-radius:50%; background:#fbcfe8;"></div>
+          </div>
+        `,
+        sourceCode: `@layer base {
+  :root {
+    --background: 327 100% 97%;
+    --foreground: 327 40% 15%;
+    --primary: 327 85% 60%;
+    --primary-foreground: 0 0% 100%;
+  }
+}`,
+        demoCode: `/* Apply to globals.css */`
       },
       {
         id: "neo-brutalism-theme",
-        name: "Neo Brutalism Theme",
+        name: "Neo Brutalism Theme Preset",
         type: "theme",
         author: "serafimcloud",
-        desc: "Bold high-contrast theme preset featuring heavy borders, sharp drop-shadows, and raw graphic aesthetics.",
+        desc: "High-contrast theme with heavy 3px borders, stark shadows, and vibrant pop colors.",
+        install: "npx shadcn@latest add \"https://21st.dev/community/themes/neo-brutalism\"",
         preview: null,
-        url: "https://21st.dev/community/themes/neo-brutalism"
+        renderDemo: `
+          <div style="background:#facc15; border:3px solid #000; box-shadow:4px 4px 0 #000; padding:6px 12px; font-weight:800; color:#000;">
+            NEO BRUTALISM
+          </div>
+        `,
+        sourceCode: `@layer base {
+  :root {
+    --border: 0 0% 0%;
+    --radius: 0px;
+    --primary: 48 96% 53%;
+  }
+}`,
+        demoCode: `/* Apply to globals.css */`
       }
     ];
 
     const grid = document.getElementById('grid');
     const searchInput = document.getElementById('search-input');
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
 
     let currentFilter = 'all';
     let searchQuery = '';
 
     function render() {
-      const filtered = items.filter(item => {
-        const matchesFilter = currentFilter === 'all' || 
-          (currentFilter === 'component' && item.type === 'component') ||
-          (currentFilter === 'hook' && item.type === 'hook') ||
-          (currentFilter === 'theme' && item.type === 'theme');
-        
+      const filtered = componentsData.filter(item => {
+        const matchesFilter = currentFilter === 'all' || item.type === currentFilter;
         const matchesSearch = item.name.toLowerCase().includes(searchQuery) ||
           item.author.toLowerCase().includes(searchQuery) ||
           item.desc.toLowerCase().includes(searchQuery);
@@ -832,90 +1071,91 @@
         return matchesFilter && matchesSearch;
       });
 
-      if (filtered.length === 0) {
-        grid.innerHTML = `
-          <div class="no-results">
-            <h3>No bookmarks found</h3>
-            <p>Try adjusting your search query or filter settings.</p>
+      grid.innerHTML = filtered.map(item => `
+        <div class="card">
+          <div class="card-stage">
+            <span class="card-type-badge ${item.type}">${item.type}</span>
+            <span class="card-id-badge">ID: ${item.id}</span>
+            ${item.renderDemo || (item.preview ? `<img src="${item.preview}" style="max-height:140px; object-fit:contain;" />` : '')}
           </div>
-        `;
-        return;
-      }
-
-      grid.innerHTML = filtered.map(item => {
-        const isTheme = item.type === 'theme';
-        const isHook = item.type === 'hook';
-        
-        let previewHtml = '';
-        if (item.preview) {
-          previewHtml = `<img src="${item.preview}" alt="${item.name}" loading="lazy" onclick="openLightbox('${item.preview}')" style="cursor: pointer;">`;
-        } else {
-          previewHtml = `
-            <div class="theme-preview-box">
-              <span class="theme-icon">🎨</span>
-              <span style="color: var(--text-muted); font-weight: 600;">Theme Palette</span>
-            </div>
-          `;
-        }
-
-        const badgeClass = item.type;
-
-        return `
-          <div class="card" data-type="${item.type}">
-            <div class="card-preview">
-              <span class="card-type-badge ${badgeClass}">${item.type}</span>
-              <span class="card-id-badge">ID: ${item.id}</span>
-              ${previewHtml}
-            </div>
-            <div class="card-body">
-              <div class="card-header">
-                <h2 class="card-title">${item.name}</h2>
-              </div>
-              <div class="card-author">by @${item.author}</div>
-              <p class="card-desc">${item.desc}</p>
-              
-              <div class="card-action-box">
-                ${item.install ? `
-                  <div class="install-cmd-container" onclick="copyCommand('${item.install.replace(/"/g, '&quot;')}', this)">
-                    <span class="install-text" title="${item.install}">${item.install}</span>
-                    <button class="copy-btn">Copy</button>
-                  </div>
-                ` : ''}
-                <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="external-link-btn">
-                  View on 21st.dev
-                  <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                  </svg>
-                </a>
-              </div>
+          <div class="card-body">
+            <h2 class="card-title">${item.name}</h2>
+            <div class="card-author">by @${item.author}</div>
+            <p class="card-desc">${item.desc}</p>
+            <div class="card-actions">
+              <button class="btn btn-primary" onclick="openCodeModal('${item.id}')">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                </svg>
+                View Code
+              </button>
+              <button class="btn btn-secondary" onclick="copyInstall('${item.install.replace(/"/g, '&quot;')}', this)">
+                Install
+              </button>
             </div>
           </div>
-        `;
-      }).join('');
+        </div>
+      `).join('');
     }
 
-    function copyCommand(cmd, el) {
-      navigator.clipboard.writeText(cmd).then(() => {
-        const btn = el.querySelector('.copy-btn');
-        if (btn) {
-          btn.textContent = 'Copied!';
-          btn.classList.add('copied');
-          setTimeout(() => {
-            btn.textContent = 'Copy';
-            btn.classList.remove('copied');
-          }, 2000);
-        }
+    let activeModalItem = null;
+    let activeModalTab = 'source';
+
+    function openCodeModal(id) {
+      activeModalItem = componentsData.find(i => i.id === id);
+      if (!activeModalItem) return;
+      
+      document.getElementById('modal-title').textContent = activeModalItem.name + ' Code';
+      switchModalTab('source');
+      document.getElementById('code-modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('code-modal').classList.remove('active');
+    }
+
+    function switchModalTab(tab) {
+      activeModalTab = tab;
+      const tabBtns = document.querySelectorAll('.modal-tab-btn');
+      tabBtns[0].classList.toggle('active', tab === 'source');
+      tabBtns[1].classList.toggle('active', tab === 'demo');
+      tabBtns[2].classList.toggle('active', tab === 'install');
+
+      const codeContent = document.getElementById('modal-code-content');
+      if (tab === 'source') {
+        codeContent.textContent = activeModalItem.sourceCode || '// Component source code';
+        codeContent.className = 'language-tsx';
+      } else if (tab === 'demo') {
+        codeContent.textContent = activeModalItem.demoCode || '// Demo usage code';
+        codeContent.className = 'language-tsx';
+      } else {
+        codeContent.textContent = activeModalItem.install || '';
+        codeContent.className = 'language-bash';
+      }
+
+      Prism.highlightElement(codeContent);
+    }
+
+    function copyCurrentModalCode() {
+      const codeContent = document.getElementById('modal-code-content').textContent;
+      navigator.clipboard.writeText(codeContent).then(() => {
+        const btn = document.getElementById('modal-copy-btn');
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy Code';
+          btn.classList.remove('copied');
+        }, 2000);
       });
     }
 
-    function openLightbox(src) {
-      lightboxImg.src = src;
-      lightbox.classList.add('active');
+    function copyInstall(cmd, btn) {
+      navigator.clipboard.writeText(cmd).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = orig; }, 1500);
+      });
     }
-
-    lightbox.addEventListener('click', () => {
-      lightbox.classList.remove('active');
-    });
 
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value.toLowerCase().trim();
@@ -931,7 +1171,6 @@
       });
     });
 
-    // Initial render
     render();
   </script>
 </body>
