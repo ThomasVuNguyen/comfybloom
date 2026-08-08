@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>21st.dev Bookmarked Components - ComfyBloom Design Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0c10;
+      --bg-card: #12161f;
+      --bg-card-hover: #181e2b;
+      --border-color: #232a3b;
+      --border-accent: #3b82f6;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-pink: #ec4899;
+      --accent-cyan: #06b6d4;
+      --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+      --gradient-card-border: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.3));
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      padding: 2rem;
+      line-height: 1.5;
+    }
+
+    /* Header & Hero */
+    header {
+      max-width: 1400px;
+      margin: 0 auto 2.5rem auto;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: var(--gradient-primary);
+      filter: blur(120px);
+      opacity: 0.25;
+      pointer-events: none;
+      border-radius: 50%;
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 0.75rem;
+    }
+
+    .brand-badge {
+      background: var(--gradient-primary);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+      font-size: 1.8rem;
+      letter-spacing: -0.02em;
+    }
+
+    .tag-21st {
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin-bottom: 2rem;
+    }
+
+    /* Metrics Bar */
+    .metrics-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .metric-card {
+      background: rgba(18, 22, 31, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      min-width: 160px;
+    }
+
+    .metric-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Controls Bar */
+    .controls-bar {
+      max-width: 1400px;
+      margin: 0 auto 2rem auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 280px;
+      max-width: 480px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.75rem 1rem 0.75rem 2.75rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      width: 18px;
+      height: 18px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      background: var(--bg-card);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      gap: 4px;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      color: var(--text-main);
+    }
+
+    .filter-btn.active {
+      background: rgba(59, 130, 246, 0.2);
+      color: #fff;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    /* Grid Layout */
+    .components-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.75rem;
+    }
+
+    /* Component Card */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(139, 92, 246, 0.4);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-preview {
+      width: 100%;
+      height: 190px;
+      background: #0f1219;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover .card-preview img {
+      transform: scale(1.04);
+    }
+
+    .theme-preview-box {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: radial-gradient(circle at center, rgba(139, 92, 246, 0.2) 0%, rgba(10, 12, 16, 0.9) 100%);
+    }
+
+    .theme-icon {
+      font-size: 2.5rem;
+    }
+
+    .card-type-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      backdrop-filter: blur(8px);
+    }
+
+    .card-type-badge.component {
+      background: rgba(59, 130, 246, 0.85);
+      color: #fff;
+    }
+
+    .card-type-badge.theme {
+      background: rgba(236, 72, 153, 0.85);
+      color: #fff;
+    }
+
+    .card-type-badge.hook {
+      background: rgba(16, 185, 129, 0.85);
+      color: #fff;
+    }
+
+    .card-id-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.65);
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+    }
+
+    .card-body {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .card-author {
+      font-size: 0.8rem;
+      color: var(--accent-cyan);
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Command / Link Box */
+    .card-action-box {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .install-cmd-container {
+      background: #090c12;
+      border: 1px solid #1e2636;
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #d1d5db;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .install-cmd-container:hover {
+      border-color: var(--accent-blue);
+      background: #0d121c;
+    }
+
+    .install-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      user-select: all;
+    }
+
+    .copy-btn {
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #60a5fa;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+
+    .copy-btn.copied {
+      background: #10b981;
+      border-color: #10b981;
+      color: #fff;
+    }
+
+    .external-link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.825rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .external-link-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--text-muted);
+    }
+
+    /* Modal / Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 85vh;
+      display: block;
+      object-fit: contain;
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-muted);
+    }
+
+    .no-results h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand-title">
+      <span class="brand-badge">21st.dev Bookmarks</span>
+      <span class="tag-21st">ComfyBloom Design Hub</span>
+    </div>
+    <p class="subtitle">Curated collection of UI components, interactive elements, hooks, and themes fetched from 21st.dev for the ComfyBloom workspace.</p>
+    
+    <div class="metrics-bar">
+      <div class="metric-card">
+        <div class="metric-value" id="count-total">27</div>
+        <div class="metric-label">Total Bookmarks</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="count-components">25</div>
+        <div class="metric-label">Components</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="count-themes">2</div>
+        <div class="metric-label">Themes</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">16+</div>
+        <div class="metric-label">Authors</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="controls-bar">
+    <div class="search-box">
+      <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      </svg>
+      <input type="text" id="search-input" class="search-input" placeholder="Search by component name, author, or keyword...">
+    </div>
+
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">All (27)</button>
+      <button class="filter-btn" data-filter="component">Components (23)</button>
+      <button class="filter-btn" data-filter="hook">Hooks (2)</button>
+      <button class="filter-btn" data-filter="theme">Themes (2)</button>
+    </div>
+  </div>
+
+  <main class="components-grid" id="grid">
+    <!-- Component Cards populated dynamically -->
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="Preview">
+    </div>
+  </div>
+
+  <script>
+    const items = [
+      {
+        id: "21203",
+        name: "Ruixen Gradient Footer",
+        type: "component",
+        author: "ruixen.ui",
+        desc: "A footer that shows its content first, then stretches a tall, blurred rainbow up from the floor as you scroll to the bottom of the page. Gradient inspired by Dia Browser — one inline SVG, no dependencies.",
+        preview: "https://cdn.21st.dev/ruixen.ui/ruixen-gradient-footer/default/preview.1784727001585-aa4b8c38-0fd9-4389-811c-d9c48df71bdd.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/ruixen.ui/ruixen-gradient-footer\"",
+        url: "https://21st.dev/r/ruixen.ui/ruixen-gradient-footer"
+      },
+      {
+        id: "16368",
+        name: "Interactive Folder Gallery",
+        type: "component",
+        author: "alexperezcedeno",
+        desc: "A macOS-inspired folder that springs open on click, fanning out photo cards with realistic Framer Motion physics and drag-to-close interactions.",
+        preview: "https://cdn.21st.dev/alexperezcedeno/interactive-folder-gallery/default/preview.1782793436861.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/alexperezcedeno/interactive-folder-gallery\"",
+        url: "https://21st.dev/r/alexperezcedeno/interactive-folder-gallery"
+      },
+      {
+        id: "18484",
+        name: "Background Pixel Stars",
+        type: "component",
+        author: "uicapsule",
+        desc: "An animated fullscreen canvas background of twinkling retro pixel stars with periodic pixelated shooting stars.",
+        preview: "https://cdn.21st.dev/uicapsule/background-pixel-stars/default/preview.1783581843955.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/uicapsule/background-pixel-stars\"",
+        url: "https://21st.dev/r/uicapsule/background-pixel-stars"
+      },
+      {
+        id: "18472",
+        name: "Animated Gradient",
+        type: "component",
+        author: "componentry",
+        desc: "A full-cover WebGL animated gradient background with configurable presets, noise overlay, and swirl distortion for hero sections and cards.",
+        preview: "https://cdn.21st.dev/componentry/animated-gradient/default/preview.1783581957172.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/componentry/animated-gradient\"",
+        url: "https://21st.dev/r/componentry/animated-gradient"
+      },
+      {
+        id: "19861",
+        name: "How It Works",
+        type: "component",
+        author: "chamaac",
+        desc: "A visual step-by-step process section with pinned, connected cards showing how something works.",
+        preview: "https://cdn.21st.dev/chamaac/how-it-works/default/preview.1784360686164-c9ef8bfe-dc43-4bca-9387-30df706ad4d2.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/chamaac/how-it-works\"",
+        url: "https://21st.dev/r/chamaac/how-it-works"
+      },
+      {
+        id: "21951",
+        name: "Circular Carousel",
+        type: "component",
+        author: "nexus-ui",
+        desc: "An animated orbital carousel that arcs cards along a curved track with smooth active-card transitions, autoplay, dot indicators, and keyboard navigation.",
+        preview: "https://cdn.21st.dev/nexus-ui/circular-carousel/default/preview.1784917780107-1874b319-d482-4189-9cb8-abe5f5bee9c2.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/nexus-ui/circular-carousel\"",
+        url: "https://21st.dev/r/nexus-ui/circular-carousel"
+      },
+      {
+        id: "16788",
+        name: "Gradient Shimmer",
+        type: "component",
+        author: "mona_biasia",
+        desc: "A zero-dependency React text shimmer that sweeps a multi-stop gradient highlight across your text. Web-Animations-API driven with 8 rich presets.",
+        preview: "https://cdn.21st.dev/mona_biasia/gradient-shimmer/default/preview.1785452352383-aeab1551-501d-4582-a37a-af4d23ca2d8f.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/mona_biasia/gradient-shimmer\"",
+        url: "https://21st.dev/r/mona_biasia/gradient-shimmer"
+      },
+      {
+        id: "16370",
+        name: "Modern Login & Signup",
+        type: "component",
+        author: "pulseawan",
+        desc: "Modern, responsive login and signup UI components built with React and Tailwind CSS — ready-to-use authentication forms with clean design.",
+        preview: "https://cdn.21st.dev/pulseawan/modern-login-signup/default/preview.1782801552351.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/pulseawan/modern-login-signup\"",
+        url: "https://21st.dev/r/pulseawan/modern-login-signup"
+      },
+      {
+        id: "19091",
+        name: "Marquee Along SVG Path",
+        type: "component",
+        author: "danielpetho",
+        desc: "A marquee that animates its children continuously along any custom SVG path, with hover slowdown, drag, and scroll-velocity controls.",
+        preview: "https://cdn.21st.dev/danielpetho/marquee-along-svg-path/default/preview.1783680258980.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/danielpetho/marquee-along-svg-path\"",
+        url: "https://21st.dev/r/danielpetho/marquee-along-svg-path"
+      },
+      {
+        id: "7027",
+        name: "Dotted Surface",
+        type: "component",
+        author: "sshahaider",
+        desc: "An animated 3D dotted wave background built with Three.js that flows like water. Theme-aware and lightweight.",
+        preview: "https://cdn.21st.dev/sshahaider/dotted-surface/default/preview.1785469416363-efa502af-ddbb-41c0-8aaa-2b472de5a664.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/sshahaider/dotted-surface\"",
+        url: "https://21st.dev/r/sshahaider/dotted-surface"
+      },
+      {
+        id: "11607",
+        name: "Globe CDN",
+        type: "component",
+        author: "shuding",
+        desc: "A Vercel-style WebGL globe with spinning 3D pyramid markers at edge regions and live traffic stats on arcs.",
+        preview: "https://cdn.21st.dev/reapollo/cobe-globe-cdn/default/preview.1774294444412.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/shuding/cobe-globe-cdn\"",
+        url: "https://21st.dev/r/shuding/cobe-globe-cdn"
+      },
+      {
+        id: "2492",
+        name: "Hover Image Gallery",
+        type: "component",
+        author: "isaiahbjork",
+        desc: "A responsive image viewer that changes the visible image based on horizontal mouse position, enhanced with glassmorphic tooltip.",
+        preview: "https://cdn.21st.dev/user_2tkbBPFWYn8YMjZNHwgIuP3yzvd/hover-image-gallery/default/preview.1785230467833.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/isaiahbjork/hover-image-gallery\"",
+        url: "https://21st.dev/r/isaiahbjork/hover-image-gallery"
+      },
+      {
+        id: "5301",
+        name: "Tree Navigation",
+        type: "component",
+        author: "haydenbleasel",
+        desc: "Hierarchical tree navigation view with custom icons, expand/collapse states, and item selection.",
+        preview: "https://cdn.21st.dev/user_2rdQLmsxuhvWx0tfvW2jDPWI7CY/tree/custom-icons/preview.1785518658221.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/haydenbleasel/tree\"",
+        url: "https://21st.dev/r/haydenbleasel/tree"
+      },
+      {
+        id: "4511",
+        name: "Workspaces",
+        type: "component",
+        author: "sshahaider",
+        desc: "A flexible, context-based solution to manage and display multiple workspaces in your app using Radix Popover.",
+        preview: "https://cdn.21st.dev/sshahaider/workspaces/default/preview.1753391499748.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/sshahaider/workspaces\"",
+        url: "https://21st.dev/r/sshahaider/workspaces"
+      },
+      {
+        id: "4667",
+        name: "Progressive Blur Modal",
+        type: "component",
+        author: "pate1kiran",
+        desc: "Modern dialog modal featuring layered progressive backdrop blur effects for high-end aesthetic UI presentation.",
+        preview: "https://cdn.21st.dev/larsen66/progressive-blur-modal/default/preview.1753800146112.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/pate1kiran/progressive-blur-modal\"",
+        url: "https://21st.dev/r/pate1kiran/progressive-blur-modal"
+      },
+      {
+        id: "10480",
+        name: "Onboarding Dialog",
+        type: "component",
+        author: "patrick-xin",
+        desc: "A multi-step onboarding dialog with carousel navigation, animated progress dots, and cross-fading content built with Embla Carousel and Motion.",
+        preview: "https://cdn.21st.dev/larsen66/onboarding-dialog/demos/default/preview.1773281994274.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/patrick-xin/onboarding-dialog\"",
+        url: "https://21st.dev/r/patrick-xin/onboarding-dialog"
+      },
+      {
+        id: "1690",
+        name: "Product Hunt Badge",
+        type: "component",
+        author: "shugar",
+        desc: "Award & launch badge component inspired by Product Hunt and gethorse.com.",
+        preview: "https://cdn.21st.dev/user_shugar/award-badge/default/preview.png?v=1",
+        install: "npx shadcn@latest add \"https://21st.dev/r/shugar/award-badge\"",
+        url: "https://21st.dev/r/shugar/award-badge"
+      },
+      {
+        id: "1923",
+        name: "Avatar Group",
+        type: "component",
+        author: "preetsuthar17",
+        desc: "Stacked and overlapping user avatar group display with count indicators and hover expansions.",
+        preview: "https://cdn.21st.dev/user_2rWolCuRnJW3DRiuQ5JHrl5kj8a/avatar-group/avatar-group/preview.png?v=1",
+        install: "npx shadcn@latest add \"https://21st.dev/r/preetsuthar17/avatar-group\"",
+        url: "https://21st.dev/r/preetsuthar17/avatar-group"
+      },
+      {
+        id: "1794",
+        name: "Avatar Picker",
+        type: "component",
+        author: "kokonutd",
+        desc: "Animated profile avatar selection component with smooth transitions and selection state highlights.",
+        preview: "https://cdn.21st.dev/user_2rQ1QHrJyxpmWMHhqhANzWMc64n/avatar-picker/default/preview.1745329189628.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/kokonutd/avatar-picker\"",
+        url: "https://21st.dev/r/kokonutd/avatar-picker"
+      },
+      {
+        id: "3730",
+        name: "Stepper Progress",
+        type: "component",
+        author: "sean0205",
+        desc: "Step-by-step process indicator for guiding users sequentially through multi-stage forms and setups.",
+        preview: "https://cdn.21st.dev/sean0205/stepper/title-bar/preview.1751698456461.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/sean0205/stepper\"",
+        url: "https://21st.dev/r/sean0205/stepper"
+      },
+      {
+        id: "7637",
+        name: "Steps Tracker Card",
+        type: "component",
+        author: "lavikatiyar",
+        desc: "Animated step-count analytics card with fluid counter animations and staggered bar chart data visualizer.",
+        preview: "https://cdn.21st.dev/lavikatiyar/card-6/default/preview.1758072283847.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/lavikatiyar/card-6\"",
+        url: "https://21st.dev/r/lavikatiyar/card-6"
+      },
+      {
+        id: "8590",
+        name: "Statistics Card",
+        type: "component",
+        author: "aghasisahakyan1",
+        desc: "Clean, high-density metric & statistical dashboard card featuring growth trends and percentage indicators.",
+        preview: "https://cdn.21st.dev/aghasisahakyan1/statistics-card/default/preview.1759974094075.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/aghasisahakyan1/statistics-card\"",
+        url: "https://21st.dev/r/aghasisahakyan1/statistics-card"
+      },
+      {
+        id: "915",
+        name: "useElasticLineEvents",
+        type: "hook",
+        author: "danielpetho",
+        desc: "Custom React hook for computing organic, springy elastic line physics and event listeners for canvas/SVG elements.",
+        preview: "https://cdn.21st.dev/user_danielpetho/use-elastic-line-events/915/preview.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/danielpetho/use-elastic-line-events\"",
+        url: "https://21st.dev/r/danielpetho/use-elastic-line-events"
+      },
+      {
+        id: "883",
+        name: "useMousePositionRef",
+        type: "hook",
+        author: "danielpetho",
+        desc: "High-performance React hook that tracks cursor/touch coordinates in a mutable ref to avoid unnecessary component re-renders.",
+        preview: "https://cdn.21st.dev/user_danielpetho/use-mouse-position-ref/883/preview.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/danielpetho/use-mouse-position-ref\"",
+        url: "https://21st.dev/r/danielpetho/use-mouse-position-ref"
+      },
+      {
+        id: "19356",
+        name: "Footer Section 4",
+        type: "component",
+        author: "solaceui",
+        desc: "A responsive footer section with a branded blue card, animated social icons, multi-column navigation links, and a newsletter email signup.",
+        preview: "https://cdn.21st.dev/solaceui/footer-section-4/default/preview.1783728660801.png",
+        install: "npx shadcn@latest add \"https://21st.dev/r/solaceui/footer-section-4\"",
+        url: "https://21st.dev/r/solaceui/footer-section-4"
+      },
+      {
+        id: "bubblegum-theme",
+        name: "Bubblegum Theme",
+        type: "theme",
+        author: "serafimcloud",
+        desc: "Playful pink & pastel color theme preset with vibrant accent highlights for shadcn/ui components.",
+        preview: null,
+        url: "https://21st.dev/community/themes/bubblegum"
+      },
+      {
+        id: "neo-brutalism-theme",
+        name: "Neo Brutalism Theme",
+        type: "theme",
+        author: "serafimcloud",
+        desc: "Bold high-contrast theme preset featuring heavy borders, sharp drop-shadows, and raw graphic aesthetics.",
+        preview: null,
+        url: "https://21st.dev/community/themes/neo-brutalism"
+      }
+    ];
+
+    const grid = document.getElementById('grid');
+    const searchInput = document.getElementById('search-input');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    let currentFilter = 'all';
+    let searchQuery = '';
+
+    function render() {
+      const filtered = items.filter(item => {
+        const matchesFilter = currentFilter === 'all' || 
+          (currentFilter === 'component' && item.type === 'component') ||
+          (currentFilter === 'hook' && item.type === 'hook') ||
+          (currentFilter === 'theme' && item.type === 'theme');
+        
+        const matchesSearch = item.name.toLowerCase().includes(searchQuery) ||
+          item.author.toLowerCase().includes(searchQuery) ||
+          item.desc.toLowerCase().includes(searchQuery);
+
+        return matchesFilter && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="no-results">
+            <h3>No bookmarks found</h3>
+            <p>Try adjusting your search query or filter settings.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(item => {
+        const isTheme = item.type === 'theme';
+        const isHook = item.type === 'hook';
+        
+        let previewHtml = '';
+        if (item.preview) {
+          previewHtml = `<img src="${item.preview}" alt="${item.name}" loading="lazy" onclick="openLightbox('${item.preview}')" style="cursor: pointer;">`;
+        } else {
+          previewHtml = `
+            <div class="theme-preview-box">
+              <span class="theme-icon">🎨</span>
+              <span style="color: var(--text-muted); font-weight: 600;">Theme Palette</span>
+            </div>
+          `;
+        }
+
+        const badgeClass = item.type;
+
+        return `
+          <div class="card" data-type="${item.type}">
+            <div class="card-preview">
+              <span class="card-type-badge ${badgeClass}">${item.type}</span>
+              <span class="card-id-badge">ID: ${item.id}</span>
+              ${previewHtml}
+            </div>
+            <div class="card-body">
+              <div class="card-header">
+                <h2 class="card-title">${item.name}</h2>
+              </div>
+              <div class="card-author">by @${item.author}</div>
+              <p class="card-desc">${item.desc}</p>
+              
+              <div class="card-action-box">
+                ${item.install ? `
+                  <div class="install-cmd-container" onclick="copyCommand('${item.install.replace(/"/g, '&quot;')}', this)">
+                    <span class="install-text" title="${item.install}">${item.install}</span>
+                    <button class="copy-btn">Copy</button>
+                  </div>
+                ` : ''}
+                <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="external-link-btn">
+                  View on 21st.dev
+                  <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function copyCommand(cmd, el) {
+      navigator.clipboard.writeText(cmd).then(() => {
+        const btn = el.querySelector('.copy-btn');
+        if (btn) {
+          btn.textContent = 'Copied!';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+          }, 2000);
+        }
+      });
+    }
+
+    function openLightbox(src) {
+      lightboxImg.src = src;
+      lightbox.classList.add('active');
+    }
+
+    lightbox.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      render();
+    });
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        render();
+      });
+    });
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
