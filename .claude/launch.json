@@ -1,0 +1,26 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "cancer-explorer",
+      "runtimeExecutable": "/opt/homebrew/bin/node",
+      "runtimeArgs": ["/Users/thomasthemaker/Development/ComfySpace/labs/comfybloom/Tinker/Learn-about-Sid/cancer-explorer/node_modules/.bin/vite"],
+      "port": 5173,
+      "cwd": "/Users/thomasthemaker/Development/ComfySpace/labs/comfybloom/Tinker/Learn-about-Sid/cancer-explorer"
+    },
+    {
+      "name": "alphafold-react",
+      "runtimeExecutable": "/opt/homebrew/bin/node",
+      "runtimeArgs": ["/Users/thomasthemaker/Development/ComfySpace/labs/comfybloom/Tinker/ProteinTinker/node_modules/.bin/vite"],
+      "port": 1306,
+      "cwd": "/Users/thomasthemaker/Development/ComfySpace/labs/comfybloom/Tinker/ProteinTinker"
+    },
+    {
+      "name": "alphagenome",
+      "runtimeExecutable": "/opt/homebrew/bin/node",
+      "runtimeArgs": ["/Users/thomasthemaker/Development/ComfySpace/labs/comfybloom/Tinker/alphagenome/web/node_modules/.bin/vite"],
+      "port": 5174,
+      "cwd": "/Users/thomasthemaker/Development/ComfySpace/labs/comfybloom/Tinker/alphagenome/web"
+    }
+  ]
+}
