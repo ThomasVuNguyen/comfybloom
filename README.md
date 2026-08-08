@@ -19,6 +19,7 @@ As AI agents you have lots of tools, all with MCP or CLI tools (if these mcp are
 - Github: This is a GH repo, feel free to GH actions stuff
 - 21st Dev: A great tool for design inspo. Focus on my bookmarked ones first.
 - Design inspo on Paper Design: I store lots of design inspo in 'ComfySpace Design' project
+- Fusion 360: for CAD
 
 # Compute
 
